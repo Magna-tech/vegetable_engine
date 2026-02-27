@@ -1,18 +1,30 @@
-## Getting Started
+# Vegetable Service Engine
+**Course:** MIT8102: Advanced Distributed Systems
+**Admission Number:** 225518
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## Project Overview
+This is a mobile distributed application designed to manage a vegetable-price table.
+The system uses a distributed architecture where a mobile client communicates via Java Servlets to a remote Vegetable Compute Engine using RMI (Remote Method Invocation).
 
-## Folder Structure
+## Features
+The application supports five core client tasks:
+1. **Add:** Insert new vegetable-price entities.
+2. **Update:** Modify existing vegetable prices.
+3. **Delete:** Remove vegetable entities.
+4. **Calculate:** Query prices and compute total cost based on quantity.
+5. **Receipt:** Generate a transaction receipt including change and cashier details.
 
-The workspace contains two folders by default, where:
+## Setup & Implementation
+* **RMI Registry:** Runs on the default port 1099.
+* **Connection:** Configured for `localhost` for local testing.
+* **Architecture:** Implements a Compute Engine that executes generic `Task` objects.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## How to Run
+1. Start the RMI Registry: `rmiregistry 1099`.
+2. Launch the `VegetableComputeEngine`.
+3. Deploy the Java Servlets to a web server (e.g., Apache Tomcat).
+4. Run the Client application to interact with the Servlets.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## References
+* Coulouris, G., Dollimore, J. & Kindburg, T. (2011). *Distributed Systems, Concepts and Design*. Addison Wesley.
+* Tanenbaum, A. S. & van Steen, M. (2007). *Distributed Systems: Principles and Paradigms*. Pearson Education.
