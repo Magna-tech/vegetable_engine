@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vegetable Service Engine</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f4; }
+        .container { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #2e7d32; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background-color: #2e7d32; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        button:hover { background-color: #1b5e20; }
+        #responseArea { margin-top: 20px; padding: 10px; border: 1px dashed #2e7d32; background: #e8f5e9; white-space: pre-wrap; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>VeggieEngine Mobile</h2>
+    
+    <div class="form-group">
+        <label>Select Task</label>
+        <select id="actionSelect">
+            <option value="add">Add New Vegetable</option>
+            <option value="update">Update Price</option>
+            <option value="delete">Delete Vegetable</option>
+            <option value="calculateCost">Calculate Cost</option>
+            <option value="receipt">Print Receipt</option>
+        </select>
+    </div>
+
+    <div id="dynamicInputs">
+        <input type="text" id="name" placeholder="Vegetable Name" class="form-group">
+        <input type="number" id="val1" placeholder="Price or Quantity" class="form-group">
+        <input type="text" id="cashier" placeholder="Cashier Name (for Receipt)" class="form-group" style="display:none;">
+    </div>
+
+    <button onclick="submitTask()">Execute Task</button>
+
+    <div id="responseArea">Server response will appear here...</div>
+</div>
+
+<script>
+    // Logic to toggle fields based on task
+    document.getElementById('actionSelect').addEventListener('change', function() {
+        const action = this.value;
+        document.getElementById('cashier').style.display = (action === 'receipt') ? 'block' : 'none';
+        
+        if(action === 'add' || action === 'update') {
+            document.getElementById('val1').placeholder = "Price";
+        } else if(action === 'calculateCost') {
+            document.getElementById('val1').placeholder = "Quantity";
+        } else if(action === 'delete') {
+            document.getElementById('val1').style.display = "none";
+        } else {
+            document.getElementById('val1').style.display = "block";
+        }
+    });
+
+    async function submitTask() {
+        const action = document.getElementById('actionSelect').value;
+        const name = document.getElementById('name').value;
+        const val1 = document.getElementById('val1').value;
+        const cashier = document.getElementById('cashier').value;
+
+        // Construct parameters for the Servlet
+        let params = new URLSearchParams();
+        params.append('action', action);
+        params.append('name', name);
+        
+        if (action === 'add' || action === 'update') params.append('price', val1);
+        if (action === 'calculateCost') params.append('qty', val1);
+        if (action === 'receipt') {
+            params.append('total', name)
+            params.append('paid', val1);
+            params.append('cashier', cashier);
+        }
+
+        try {
+            const response = await fetch('/VegetableServlet', {
+                method: 'POST',
+                body: params
+            });
+            const text = await response.text();
+            document.getElementById('responseArea').innerText = text;
+        } catch (err) {
+            document.getElementById('responseArea').innerText = "Error connecting to server.";
+        }
+    }
+</script>
+
+</body>
+</html>

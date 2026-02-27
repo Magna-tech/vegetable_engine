@@ -1,0 +1,17 @@
+# Log information
+
+Research & Planning: Reviewed resources on Java Sockets and RMI provided in the assignment.\
+
+Architecture Design: Defined the Task and Compute interfaces to ensure generic execution on the engine.\
+
+Core Logic Implementation: Developed the VegetableComputeEngine.java to extend UnicastRemoteObject and bind to the RMI registry.
+
+Task Implementation: Coded the five specific task classes (Add, Update, Delete, CalCost, CalculateReceipt).\
+
+Middleware Setup: Developed Java Servlets to act as the communication bridge between the client and the RMI engine.\
+
+Client Development: Created a simple interface for the mobile/client application to trigger the tasks.\
+
+Testing and troubleshooting: Fixed code errors and verified the RMI interaction on localhost port 1099.\
+
+Documentation & Submission: Finalized and pushed the repository to GitHub.
