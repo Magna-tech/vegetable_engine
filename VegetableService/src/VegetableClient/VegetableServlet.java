@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import VegetableServer.Task;
 import VegetableServer.*;
 
 // The @WebServlet annotation maps this class to a URL the HTML can call
@@ -28,13 +27,13 @@ public class VegetableServlet extends HttpServlet {
             if ("add".equalsIgnoreCase(action)) {
                 String name = request.getParameter("name");
                 double price = Double.parseDouble(request.getParameter("price"));
-                out.println(TaskRegistry.runTask(new VegetableServer.AddVegetablePrice(name, price)));
+                out.println(VegetableComputeTaskRegistry.runTask(new VegetableServer.AddVegetablePrice(name, price)));
             } 
             //Calculate Cost
             else if ("calculateCost".equalsIgnoreCase(action)) {
                 String name = request.getParameter("name");
                 double qty = Double.parseDouble(request.getParameter("qty"));
-                Double total = TaskRegistry.runTask(new VegetableServer.CalculateCost(name, qty));
+                Double total = VegetableComputeTaskRegistry.runTask(new VegetableServer.CalVegetableCost(name, qty));
                 out.println("Total Cost: " + total);
             }
             //Print Receipt
@@ -42,7 +41,7 @@ public class VegetableServlet extends HttpServlet {
                 double total = Double.parseDouble(request.getParameter("total"));
                 double paid = Double.parseDouble(request.getParameter("paid"));
                 String cashier = request.getParameter("cashier");
-                out.println(TaskRegistry.runTask(new VegetableServer.PrintReceipt(total, paid, cashier)));
+                out.println(VegetableComputeTaskRegistry.runTask(new VegetableServer.CalculateCost(total, paid, cashier)));
             }
         } catch (Exception e) {
             out.println("Error processing task: " + e.getMessage());

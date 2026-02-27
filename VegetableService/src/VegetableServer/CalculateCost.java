@@ -1,17 +1,22 @@
 package VegetableServer;
 
-public class CalculateCost implements Task<Double> {
-    private String name;
-    private double quantity;
+public class CalculateCost implements Task<String> {
+    private double totalCost;
+    private double amountGiven;
+    private String cashierName;
 
-    public CalculateCost(String name, double quantity) {
-        this.name = name;
-        this.quantity = quantity;
+    public CalculateCost(double totalCost, double amountGiven, String cashierName) {
+        this.totalCost = totalCost;
+        this.amountGiven = amountGiven;
+        this.cashierName = cashierName;
     }
 
     @Override
-    public Double execute() {
-        Double price = VegetableStore.priceTable.getOrDefault(name, 0.0);
-        return price * quantity;
+    public String execute() {
+        double change = amountGiven - totalCost;
+        return String.format(
+            "--- RECEIPT ---\nTotal: %.2f\nPaid: %.2f\nChange: %.2f\nCashier: %s\n---------------",
+            totalCost, amountGiven, change, cashierName
+        );
     }
 }
